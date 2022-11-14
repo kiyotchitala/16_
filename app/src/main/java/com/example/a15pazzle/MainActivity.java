@@ -18,8 +18,8 @@ import java.util.*;
 
 
 public class MainActivity extends AppCompatActivity {
-    int handnum = 0;//これは手数を数えるための変数
-    int winkaisu;//成功回数を数える
+    int handnum = 0;//To count number
+    int winkaisu;//To count success number
     final int[] point = new int[16];
     int buttonnum = 0;
     SharedPreferences pref;
@@ -59,8 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         shuffle(te);
-        //盤面は位置が済ん�?ところで
-        //�?キスト�?�力をした�?で�?
         button[0].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -288,8 +286,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         restart.setOnClickListener(new View.OnClickListener() {
-            //�?り直し�?�タン
-            //盤面をシャ�?フルしなおす
+            //reset 
             @Override
             public void onClick(View v) {
                 shuffle(te);
@@ -331,7 +328,6 @@ public class MainActivity extends AppCompatActivity {
                     writer.write("\n");
                 }
             } catch (Exception io) {
-                //どんなエラーが�?�るかもわからね�?し�?�っち�?けException�?けでよくね?�?
                 Toast.makeText(getApplicationContext(), "a", Toast.LENGTH_SHORT).show();
             }
         }
@@ -339,7 +335,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     void show() {
-        Toast.makeText(getApplicationContext(), "操作できません", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "don't move", Toast.LENGTH_SHORT).show();
     }
 
     boolean check(int[] point) {
@@ -368,7 +364,7 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             for (int i = 0; i < 16; i++) {
-                //0-14コ
+                //0-14
                 String s = str[list.get(i)];
                 if (Integer.parseInt(s) == 0) {
                     button[i].setText("");
@@ -378,7 +374,6 @@ public class MainActivity extends AppCompatActivity {
                     button[i].setText(s);
                 }
             }
-            //catchで強制�?に画面が消えな�?ように制御
         } catch (NullPointerException nul) {
             Toast.makeText(getApplicationContext(), "era", Toast.LENGTH_SHORT).show();
         } catch (ArrayIndexOutOfBoundsException a) {
@@ -392,9 +387,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void change(int x, int y,TextView te) {
-        //ここでマスを�?�れ替える
+        //change number
         if (!check(point)) {
-            //左側に押したボタンの座標な
             handnum++;
             int a = point[x];
             point[x] = point[y];
@@ -405,19 +399,16 @@ public class MainActivity extends AppCompatActivity {
             button[y].setText(sy);
             handinc(te);
         } else {
-            //クリアしたら何もしな�?
         }
-        //入れ替わるた�?�にクリアチェ�?クを行う
         if (check(point) && buttonnum == 0) {
             winkaisu++;
-            Toast.makeText(getApplicationContext(), "成功です�??�??�??�?", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Success!!", Toast.LENGTH_LONG).show();
             TextView tew = (TextView) findViewById(R.id.winnum);
             tew.setText(Integer.toString(winkaisu));
             buttonnum++;
         } else if (!check(point)) {
-            //Toast.makeText(getApplicationContext(), "�?り直�?", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getApplicationContext(), "クリアチェ�?ク済み", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "cleared!!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -428,7 +419,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onPause() {
-        //画面を閉じるときに保�?
         super.onPause();
         TextView win = (TextView) findViewById(R.id.winnum);
         prefEdit.putInt("main", winkaisu);
@@ -437,7 +427,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onResume() {
-        //画面を立ち上げた時に出�?
         super.onResume();
         TextView winnum = (TextView) findViewById(R.id.winnum);
         int strtext = pref.getInt("main", winkaisu);
